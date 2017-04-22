@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="regularCollectionViewCell" customModule="imageSample" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IL6-q6-gVK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Vq-to-xmT">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="480"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Grow Chinese Cabbage from seed for their leaves or leafy stems, many" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OTD-X8-ykz">
+                                <rect key="frame" x="0.0" y="480" width="600" height="120"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="7Vq-to-xmT" secondAttribute="trailing" id="2x4-jF-u4s"/>
+                            <constraint firstAttribute="trailing" secondItem="OTD-X8-ykz" secondAttribute="trailing" id="53Q-cL-3Mw"/>
+                            <constraint firstItem="7Vq-to-xmT" firstAttribute="leading" secondItem="IL6-q6-gVK" secondAttribute="leading" id="Gvx-cq-yOf"/>
+                            <constraint firstItem="OTD-X8-ykz" firstAttribute="top" secondItem="7Vq-to-xmT" secondAttribute="bottom" id="Kt0-YH-Zd0"/>
+                            <constraint firstItem="OTD-X8-ykz" firstAttribute="leading" secondItem="IL6-q6-gVK" secondAttribute="leading" id="Rjv-DH-gd4"/>
+                            <constraint firstAttribute="bottom" secondItem="OTD-X8-ykz" secondAttribute="bottom" id="bhD-da-FKP"/>
+                            <constraint firstItem="7Vq-to-xmT" firstAttribute="top" secondItem="IL6-q6-gVK" secondAttribute="top" id="hOT-82-4SB"/>
+                            <constraint firstItem="7Vq-to-xmT" firstAttribute="height" secondItem="IL6-q6-gVK" secondAttribute="height" multiplier="0.8" id="psN-kf-uVU"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="IL6-q6-gVK" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="3RA-Y0-jjB"/>
+                <constraint firstItem="IL6-q6-gVK" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" id="Ngt-7x-pIE"/>
+                <constraint firstItem="IL6-q6-gVK" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="XQl-oV-pTz"/>
+                <constraint firstItem="IL6-q6-gVK" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="cZ1-Es-ZNp"/>
+            </constraints>
+            <connections>
+                <outlet property="imageItem" destination="7Vq-to-xmT" id="QaF-lM-OLP"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>

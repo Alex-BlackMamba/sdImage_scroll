@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 
-class ViewController: UIViewController {
+class staticViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -21,6 +21,13 @@ class ViewController: UIViewController {
     lazy var presentAnimator = PresentAnimator()
     lazy var dismissAnimator = DismisssAnimator()
     
+    lazy var maskView: UIView = {
+        let maskView = UIView()
+        maskView.backgroundColor = UIColor.darkGray
+        maskView.frame = UIScreen.main.bounds
+        return maskView
+    }()
+    
     let urlCollection = ["https://images.pexels.com/photos/36740/vegetables-vegetable-basket-harvest-garden.jpg?h=350&auto=compress&cs=tinysrgb","https://images.pexels.com/photos/196643/pexels-photo-196643.jpeg?h=350&auto=compress&cs=tinysrgb","https://images.pexels.com/photos/36156/pexels-photo.jpg?h=350&auto=compress&cs=tinysrgb","https://images.pexels.com/photos/89267/pexels-photo-89267.jpeg?h=350&auto=compress&cs=tinysrgb","https://images.pexels.com/photos/33307/carrot-kale-walnuts-tomatoes.jpg?h=350&auto=compress&cs=tinysrgb","https://images.pexels.com/photos/41123/pexels-photo-41123.jpeg?h=350&auto=compress&cs=tinysrgb"]
     
     override func viewDidLoad() {
@@ -28,8 +35,8 @@ class ViewController: UIViewController {
         
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        let nib = UINib(nibName: "topicCollectionViewCell", bundle: Bundle.main)
-        collectionView.register(nib, forCellWithReuseIdentifier:"topicCollectionViewCell")
+        let nib = UINib(nibName: "regularCollectionViewCell", bundle: Bundle.main)
+        collectionView.register(nib, forCellWithReuseIdentifier:"regularCollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         //originalNavbarHeight = (navigationController?.navigationBar.frame.height)!
@@ -43,6 +50,8 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        presentAnimator.delegate = self
+        dismissAnimator.delegate = self
         //navigationController?.hidesBarsOnSwipe = true
     }
     
@@ -53,7 +62,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension staticViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -64,7 +73,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 200)
+        return CGSize(width: view.frame.width, height: 300)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets{
@@ -72,29 +81,28 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "topicCollectionViewCell", for: indexPath as IndexPath) as! topicCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "regularCollectionViewCell", for: indexPath as IndexPath) as! regularCollectionViewCell
         cell.updateDataSource(urlCollection[indexPath.item])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//            imageVc = storyboard?.instantiateViewController(withIdentifier: "ImageViewController") as? ImageViewController
-            let nav = storyboard?.instantiateViewController(withIdentifier: "detailNav") as? UINavigationController
-            imageVc = nav?.childViewControllers.first as? ImageViewController
-            nav?.transitioningDelegate = self
-            let cell = collectionView.cellForItem(at: indexPath) as! topicCollectionViewCell
-            imageVc?.newImage = cell.bacggroundImage.image
-            let cellRect = collectionView.convert(cell.frame, to: collectionView)
-            let currentScreenCell = collectionView.convert(cellRect, to: containerView)
-            presentAnimator.originFrame = currentScreenCell
-            dismissAnimator.originFrame = currentScreenCell
-            guard let navigatVc = nav else { return }
-            present(navigatVc, animated: true, completion: nil)
+        let nav = storyboard?.instantiateViewController(withIdentifier: "detailNav") as? UINavigationController
+        imageVc = nav?.childViewControllers.first as? ImageViewController
+        nav?.transitioningDelegate = self
+        let cell = collectionView.cellForItem(at: indexPath) as! regularCollectionViewCell
+        imageVc?.newImage = cell.imageItem.image
+        let cellRect = collectionView.convert(cell.frame, to: collectionView)
+        let currentScreenCell = collectionView.convert(cellRect, to: containerView)
+        presentAnimator.originFrame = currentScreenCell
+        dismissAnimator.originFrame = currentScreenCell
+        guard let navigatVc = nav else { return }
+        present(navigatVc, animated: true, completion: nil)
     }
 }
 
-extension ViewController: UIViewControllerTransitioningDelegate {
-
+extension staticViewController: UIViewControllerTransitioningDelegate {
+    
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return dismissAnimator
     }
@@ -103,20 +111,29 @@ extension ViewController: UIViewControllerTransitioningDelegate {
         return presentAnimator
     }
 }
-
-extension ViewController: UIScrollViewDelegate {
+extension staticViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        for cell in collectionView.visibleCells {
-            if let cellView = cell as? topicCollectionViewCell {
-                cellView.cellOnCollectionView(collectionView, scrollView: view)
-            }
-        }
+//        for cell in collectionView.visibleCells {
+//            if let cellView = cell as? topicCollectionViewCell {
+//                cellView.cellOnCollectionView(collectionView, scrollView: view)
+//            }
+//        }
         
         //view.setNeedsLayout()
     }
 }
 
+extension staticViewController: presentAnimatorDelegate {
+    func addMaskViewToPrevious() {
+        //self.navigationController?.navigationBar.barTintColor = UIColor.red
+        self.navigationController?.view.addSubview(maskView)
+    }
+    
+    func removeMaskViewFromPrevious() {
+        maskView.removeFromSuperview()
+    }
+}
 
 
 
